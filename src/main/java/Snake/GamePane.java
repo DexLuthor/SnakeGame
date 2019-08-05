@@ -19,7 +19,6 @@ public class GamePane extends Application {
     // =============== Fields ===============
     static final int WIDTH = 488; // 488 because javaFX adds additional 12 pix
     static final int HEIGHT = 488;
-    private static volatile GamePane gamePane;
 
     private Pane root;
     private Snake snakeInstance = Snake.getInstance();
@@ -49,23 +48,22 @@ public class GamePane extends Application {
         }
     }
     private void checkPositionWithinBorders(){
-        //System.out.println(snakeInstance);
         if (getSnakeX() < 10 || getSnakeX() > 490)
             snakeInstance.setAlive(false);
         if (getSnakeY() < 10 || getSnakeY() > 490)
             snakeInstance.setAlive(false);
     }
     private void checkPositionRelativeToFruit(){
-        if (snakeInstance.distanceTo(gamePane.getApple()) < 12) { // FIXME прописать нормальную дисстанцию
-            snakeInstance.eatFruit(gamePane.getBigApple());
-            gamePane.removeFruit(gamePane.getApple());
+        if (snakeInstance.distanceTo(getApple()) < 12) { // FIXME прописать нормальную дисстанцию
+            snakeInstance.eatFruit(getBigApple());
+            removeFruit(getApple());
             //addPart(); // TODO
-            gamePane.plantApple();
+            plantApple();
         }
-        if (gamePane.getBigApple() != null && snakeInstance.distanceTo(gamePane.getBigApple()) < 15) {
-            snakeInstance.eatFruit(gamePane.getBigApple());
+        if (getBigApple() != null && snakeInstance.distanceTo(getBigApple()) < 15) {
+            snakeInstance.eatFruit(getBigApple());
             //addPart(); // TODO
-            gamePane.removeFruit(gamePane.getBigApple());
+            removeFruit(getBigApple());
         }
     }
 
@@ -146,7 +144,7 @@ public class GamePane extends Application {
     }
 
     private void addPart(){ // TODO
-        root.getChildren().add(snakeInstance.new PartOfBody());
+
     }
 
     // #################################################
