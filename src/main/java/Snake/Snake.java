@@ -6,6 +6,7 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Snake extends Rectangle {
     // =============== Fields ===============
         private boolean isAlive;

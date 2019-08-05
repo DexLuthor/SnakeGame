@@ -11,6 +11,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Class, representing a pane where all actions are going
+ */
 public class GamePane extends Application {
 
     // =============== Fields ===============
@@ -24,29 +27,48 @@ public class GamePane extends Application {
     private Apple apple;
     private BigApple bigApple;
 
-    private IGameLogic controller = new Controller();
-
-    // =============== Constructors ===============
-    private GamePane(){
-
-    }
-
     // =============== Get/Set ===============
+    public double getSnakeX() {
+        return snakeInstance.getXCoordinate();
+    }
+    public double getSnakeY() {
+        return snakeInstance.getYCoordinate();
+    }
     public Apple getApple() {
         return apple;
     }
     public BigApple getBigApple() {
         return bigApple;
     }
-    public static GamePane getInstance(){
-        if(gamePane == null)
-            synchronized (GamePane.class) {
-                if (gamePane == null)
-                    gamePane = new GamePane();
-            }
-        return gamePane;
-    }
     // =============== Methods ===============
+
+    public void checkSnakePosition() {
+        if (snakeInstance.isAlive()) {
+            checkPositionWithinBorders();
+            checkPositionRelativeToFruit();
+        }
+    }
+    private void checkPositionWithinBorders(){
+        //System.out.println(snakeInstance);
+        if (getSnakeX() < 10 || getSnakeX() > 490)
+            snakeInstance.setAlive(false);
+        if (getSnakeY() < 10 || getSnakeY() > 490)
+            snakeInstance.setAlive(false);
+    }
+    private void checkPositionRelativeToFruit(){
+        if (snakeInstance.distanceTo(gamePane.getApple()) < 12) { // FIXME прописать нормальную дисстанцию
+            snakeInstance.eatFruit(gamePane.getBigApple());
+            gamePane.removeFruit(gamePane.getApple());
+            //addPart(); // TODO
+            gamePane.plantApple();
+        }
+        if (gamePane.getBigApple() != null && snakeInstance.distanceTo(gamePane.getBigApple()) < 15) {
+            snakeInstance.eatFruit(gamePane.getBigApple());
+            //addPart(); // TODO
+            gamePane.removeFruit(gamePane.getBigApple());
+        }
+    }
+
     @Override
     public void start(Stage stage) {
         Scene scene = new Scene(createContent(), Color.BLACK);
@@ -54,26 +76,29 @@ public class GamePane extends Application {
         stage.setTitle("Snake");
         stage.setResizable(false);
         stage.setScene(scene);
-        //scene.setOnMouseClicked(event -> System.out.println("x: " + event.getX() + " y: " + event.getY()));
-//
+
         scene.setOnKeyPressed(event -> {
             if (snakeInstance.isAlive()){
                 switch (event.getCode()) {
                     case W:
                     case UP:
-                        controller.move(Direction.UP);
+                        checkSnakePosition();
+                        snakeInstance.moveUp();
                         break;
                     case A:
                     case LEFT:
-                        controller.move(Direction.LEFT);
+                        checkSnakePosition();
+                        snakeInstance.moveLeft();
                         break;
                     case S:
                     case DOWN:
-                        controller.move(Direction.DOWN);
+                        checkSnakePosition();
+                        snakeInstance.moveDown();
                         break;
                     case D:
                     case RIGHT:
-                        controller.move(Direction.RIGHT);
+                        checkSnakePosition();
+                        snakeInstance.moveRight();
                         break;
                 }
             }

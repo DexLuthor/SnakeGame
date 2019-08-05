@@ -17,14 +17,14 @@ public class BigApple extends Fruit {
 
     // =============== Get/Set ===============
     @Override
-    public void setX(double x) {
+    public void setX(double x) throws IllegalPositionException {
         if (x < 10 || x > GamePane.WIDTH - 10)
             throw new IllegalPositionException("Big apple is on wrong position");
         setCenterX(x);
     }
 
     @Override
-    public void setY(double y) {
+    public void setY(double y) throws IllegalPositionException {
         if (y < 10 || y > GamePane.WIDTH - 10)
             throw new IllegalPositionException("Big apple is on wrong position");
         setCenterX(y);
