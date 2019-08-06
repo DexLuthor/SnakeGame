@@ -5,7 +5,7 @@ import Snake.engine.GameLogic;
 public interface IGameLogic {
     void initGame();
 
-    void refocusDirection(GameLogic.Direction direction);
+    void changeDirection(GameLogic.Direction direction);
 
     void finishGame();
 }

@@ -11,6 +11,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+/**
+ * класс отвечающий за логику игры:
+ */
 public class GameLogic implements IGameLogic {
     // =============== Fields ===============
     private final IGraphicInterface gui;
@@ -23,16 +26,22 @@ public class GameLogic implements IGameLogic {
     private Apple apple;
     private BigApple bigApple;
 
+    // =============== Inner enum ===============
+    /**
+     * перечисление четырех напралений в которых может двигаться змейка
+     */
     public enum Direction {
         UP,
         DOWN,
         LEFT,
         RIGHT
     }
-
+    // =============== Constructors ===============
     public GameLogic(IGraphicInterface gui) {
         this.gui = gui;
     }
+
+    // =============== Methods ===============
 
     @Override
     public void initGame() {
@@ -45,7 +54,6 @@ public class GameLogic implements IGameLogic {
         gui.addObject(Snake.getInstance());
         plantApple();
     }
-
     private void startSnake() {
         new Thread(() -> {
             while (isGameRunning) {
@@ -70,7 +78,6 @@ public class GameLogic implements IGameLogic {
             }
         }).start();
     }
-
     private void startGenerateApples() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(BigApple.TIME_TO_LIVE), event -> {
             if (Math.random() > 0.8) {
@@ -92,7 +99,6 @@ public class GameLogic implements IGameLogic {
             checkPositionRelativeToFruit();
         }
     }
-
     private void checkPositionWithinBorders() {
         if (snake.getXCoordinate() < 10 || snake.getXCoordinate() > 490) {
             snake.setAlive(false);
@@ -101,7 +107,6 @@ public class GameLogic implements IGameLogic {
             snake.setAlive(false);
         }
     }
-
     private void checkPositionRelativeToFruit() {
         if (snake.distanceTo(apple) < 12) { // FIXME прописать нормальную дистанцию
             snake.eatFruit(bigApple);
@@ -117,8 +122,21 @@ public class GameLogic implements IGameLogic {
     }
 
     @Override
-    public void refocusDirection(Direction direction) {
-        this.direction = direction;
+    public void changeDirection(Direction direction) {
+        if (this.direction != getOppositeDirection(direction)) {
+            this.direction = direction;
+        }
+    }
+    private Direction getOppositeDirection(Direction direction){
+        if (direction == Direction.UP) {
+            return Direction.DOWN;
+        } else if(direction == Direction.LEFT) {
+            return Direction.RIGHT;
+        } else if(direction == Direction.DOWN) {
+            return Direction.UP;
+        } else { // direction == Direction.RIGHT
+            return Direction.LEFT;
+        }
     }
 
     private void plantApple() {
@@ -130,7 +148,6 @@ public class GameLogic implements IGameLogic {
         gui.removeObject(apple);
         this.apple = null;
     }
-
     private void removeFruit(BigApple bigApple) {
         gui.removeObject(bigApple);
         this.bigApple = null;

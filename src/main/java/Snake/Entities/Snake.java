@@ -1,9 +1,11 @@
 package Snake.Entities;
 
+import Snake.GamePane;
 import Snake.engine.GameLogic;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import Snake.GamePane;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Snake extends Rectangle {
@@ -14,7 +16,7 @@ public class Snake extends Rectangle {
     // =============== Fields ===============
     private boolean isAlive;
     private int snakeLength = 2;
-    private List<Fruit> body;
+    private List<? super Fruit> body;
     private GameLogic.Direction currentDirection;
     private static volatile Snake snakeInstance;
     private Color color;
@@ -22,7 +24,7 @@ public class Snake extends Rectangle {
     // =============== Constructors ===============
     private Snake() {
         isAlive = true;
-        //body = new ArrayList<>();
+        body = new ArrayList<>();
         color = Color.WHITE;
 
         setWidth(WIDTH);
@@ -109,36 +111,36 @@ public class Snake extends Rectangle {
         if (currentDirection == null || currentDirection != GameLogic.Direction.DOWN) {
             currentDirection = GameLogic.Direction.UP;
             setYCoordinate(getYCoordinate() - 10);
-        } else {
-            setAlive(false);
-        }
+        } //else {
+            //setAlive(false);
+        //}
     }
 
     public void moveLeft() { // TODO сделать прерывестое движение
         if (currentDirection == null || currentDirection != GameLogic.Direction.RIGHT) {
             currentDirection = GameLogic.Direction.LEFT;
             setXCoordinate(getXCoordinate() - 10);
-        } else {
-            setAlive(false);
-        }
+        } //else {
+            //setAlive(false);
+        //}
     }
 
     public void moveDown() { // TODO сделать прерывестое движение
         if (currentDirection == null || currentDirection != GameLogic.Direction.UP) {
             currentDirection = GameLogic.Direction.DOWN;
             setYCoordinate(getYCoordinate() + 10);
-        } else {
-            setAlive(false);
-        }
+        } //else {
+            //setAlive(false);
+       // }
     }
 
     public void moveRight() { // TODO сделать прерывестое движение
         if (currentDirection == null || currentDirection != GameLogic.Direction.LEFT) {
             currentDirection = GameLogic.Direction.RIGHT;
             setXCoordinate(getXCoordinate() + 10);
-        } else {
-            setAlive(false);
-        }
+        } //else {
+           /// setAlive(false);
+       // }
     }
 
     @Override

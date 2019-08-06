@@ -11,49 +11,50 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/**
+ * Класс ответственные за игровое поле
+ */
 public class GamePane extends Application implements IGraphicInterface {
-    //     =============== CONSTANTS ===============
+    // =============== CONSTANTS ===============
     public static final int WIDTH = 488; // 488 because javaFX adds additional 12 pix
     public static final int HEIGHT = 488;
 
-    //     =============== Fields ===============
+    // =============== Fields ===============
     private Pane root;
     private Scene scene;
 
     private IGameLogic logic = new GameLogic(this);
-
+    // =============== Methods ===============
     @Override
     public void init() {
         root = new Pane();
         root.setPrefSize(WIDTH, HEIGHT);
         scene = new Scene(root, Color.BLACK);
-        scene.setOnMouseClicked(event -> System.out.println("x: " + event.getX() + " y: " + event.getY()));
+        //scene.setOnMouseClicked(event -> System.out.println("x: " + event.getX() + " y: " + event.getY()));
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case W:
                 case UP:
-                    logic.refocusDirection(GameLogic.Direction.UP);
+                    logic.changeDirection(GameLogic.Direction.UP);
                     break;
                 case A:
                 case LEFT:
-                    logic.refocusDirection(GameLogic.Direction.LEFT);
+                    logic.changeDirection(GameLogic.Direction.LEFT);
                     break;
                 case S:
                 case DOWN:
-                    logic.refocusDirection(GameLogic.Direction.DOWN);
+                    logic.changeDirection(GameLogic.Direction.DOWN);
                     break;
                 case D:
                 case RIGHT:
-                    logic.refocusDirection(GameLogic.Direction.RIGHT);
+                    logic.changeDirection(GameLogic.Direction.RIGHT);
                     break;
             }
         });
-
         logic.initGame();
     }
 
-    // =============== Methods ===============
     @Override
     public void start(Stage stage) {
         stage.setTitle("Snake");

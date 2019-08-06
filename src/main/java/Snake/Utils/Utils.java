@@ -5,10 +5,10 @@ public class Utils {
         throw new IllegalAccessException("Utils class");
     }
 
-    public static void sleep(long mills) {
+    public static void sleep(long millis) {
         try {
-            Thread.sleep(mills);
-        } catch (InterruptedException ignored) {
+            Thread.sleep(millis);
+        } catch (InterruptedException ignore) {
         }
     }
 }
