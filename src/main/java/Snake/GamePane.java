@@ -1,150 +1,80 @@
 package Snake;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import Snake.Interfaces.IGameLogic;
+import Snake.Interfaces.IGraphicInterface;
+import Snake.engine.GameLogic;
 import javafx.application.Application;
-import javafx.scene.Parent;
+import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-/**
- * Class, representing a pane where all actions are going
- */
-public class GamePane extends Application {
+public class GamePane extends Application implements IGraphicInterface {
+    //     =============== CONSTANTS ===============
+    public static final int WIDTH = 488; // 488 because javaFX adds additional 12 pix
+    public static final int HEIGHT = 488;
 
-    // =============== Fields ===============
-    static final int WIDTH = 488; // 488 because javaFX adds additional 12 pix
-    static final int HEIGHT = 488;
-
+    //     =============== Fields ===============
     private Pane root;
-    private Snake snakeInstance = Snake.getInstance();
+    private Scene scene;
 
-    private Apple apple;
-    private BigApple bigApple;
-
-    // =============== Get/Set ===============
-    public double getSnakeX() {
-        return snakeInstance.getXCoordinate();
-    }
-    public double getSnakeY() {
-        return snakeInstance.getYCoordinate();
-    }
-    public Apple getApple() {
-        return apple;
-    }
-    public BigApple getBigApple() {
-        return bigApple;
-    }
-    // =============== Methods ===============
-
-    public void checkSnakePosition() {
-        if (snakeInstance.isAlive()) {
-            checkPositionWithinBorders();
-            checkPositionRelativeToFruit();
-        }
-    }
-    private void checkPositionWithinBorders(){
-        if (getSnakeX() < 10 || getSnakeX() > 490)
-            snakeInstance.setAlive(false);
-        if (getSnakeY() < 10 || getSnakeY() > 490)
-            snakeInstance.setAlive(false);
-    }
-    private void checkPositionRelativeToFruit(){
-        if (snakeInstance.distanceTo(getApple()) < 12) { // FIXME прописать нормальную дисстанцию
-            snakeInstance.eatFruit(getBigApple());
-            removeFruit(getApple());
-            //addPart(); // TODO
-            plantApple();
-        }
-        if (getBigApple() != null && snakeInstance.distanceTo(getBigApple()) < 15) {
-            snakeInstance.eatFruit(getBigApple());
-            //addPart(); // TODO
-            removeFruit(getBigApple());
-        }
-    }
+    private IGameLogic logic = new GameLogic(this);
 
     @Override
-    public void start(Stage stage) {
-        Scene scene = new Scene(createContent(), Color.BLACK);
+    public void init() {
+        root = new Pane();
+        root.setPrefSize(WIDTH, HEIGHT);
+        scene = new Scene(root, Color.BLACK);
+        scene.setOnMouseClicked(event -> System.out.println("x: " + event.getX() + " y: " + event.getY()));
 
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case W:
+                case UP:
+                    logic.refocusDirection(GameLogic.Direction.UP);
+                    break;
+                case A:
+                case LEFT:
+                    logic.refocusDirection(GameLogic.Direction.LEFT);
+                    break;
+                case S:
+                case DOWN:
+                    logic.refocusDirection(GameLogic.Direction.DOWN);
+                    break;
+                case D:
+                case RIGHT:
+                    logic.refocusDirection(GameLogic.Direction.RIGHT);
+                    break;
+            }
+        });
+
+        logic.initGame();
+    }
+
+    // =============== Methods ===============
+    @Override
+    public void start(Stage stage) {
         stage.setTitle("Snake");
         stage.setResizable(false);
         stage.setScene(scene);
-
-        scene.setOnKeyPressed(event -> {
-            if (snakeInstance.isAlive()){
-                switch (event.getCode()) {
-                    case W:
-                    case UP:
-                        checkSnakePosition();
-                        snakeInstance.moveUp();
-                        break;
-                    case A:
-                    case LEFT:
-                        checkSnakePosition();
-                        snakeInstance.moveLeft();
-                        break;
-                    case S:
-                    case DOWN:
-                        checkSnakePosition();
-                        snakeInstance.moveDown();
-                        break;
-                    case D:
-                    case RIGHT:
-                        checkSnakePosition();
-                        snakeInstance.moveRight();
-                        break;
-                }
-            }
-        });
-        plantBigApple();
         stage.show();
     }
-    private Parent createContent() {
-        root = new Pane();
-        root.setPrefSize(WIDTH, HEIGHT);
-        root.getChildren().add(snakeInstance);
 
-        apple = Apple.generateRandomApple();
-        root.getChildren().add(apple);
-        return root;
+    @Override
+    public void stop() {
+        logic.finishGame();
     }
 
-    public void plantBigApple() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(BigApple.TIME_TO_LIVE), event -> {
-            if (Math.random() > 0.8) {
-                if (bigApple != null)
-                    removeFruit(bigApple);
-                bigApple = BigApple.generateRandomBigApple();
-                root.getChildren().add(bigApple);
-            }
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+    @Override
+    public void addObject(Node node) {
+        Platform.runLater(() -> root.getChildren().add(node));
     }
 
-    public void plantApple() {
-        apple = Apple.generateRandomApple();
-        root.getChildren().add(apple);
-        System.out.println(root.getChildren());
-    }
-
-    public void removeFruit(Apple apple) {
-        root.getChildren().remove(apple);
-        this.apple = null;
-    }
-
-    public void removeFruit(BigApple bigApple) {
-        root.getChildren().remove(bigApple);
-        this.bigApple = null;
-    }
-
-    private void addPart(){ // TODO
-
+    @Override
+    public void removeObject(Node node) {
+        Platform.runLater(() -> root.getChildren().remove(node));
     }
 
     // #################################################
