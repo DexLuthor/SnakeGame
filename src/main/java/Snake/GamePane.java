@@ -1,12 +1,9 @@
 package Snake;
 
-import Snake.Interfaces.IGameLogic;
-import Snake.Interfaces.IGraphicInterface;
+import Snake.Interfaces.*;
 import Snake.engine.GameLogic;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.application.*;
+import javafx.scene.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;

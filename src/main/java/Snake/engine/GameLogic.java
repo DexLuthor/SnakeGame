@@ -1,14 +1,9 @@
 package Snake.engine;
 
-import Snake.Entities.Apple;
-import Snake.Entities.BigApple;
-import Snake.Entities.Snake;
-import Snake.Interfaces.IGameLogic;
-import Snake.Interfaces.IGraphicInterface;
+import Snake.Entities.*;
+import Snake.Interfaces.*;
 import Snake.Utils.Utils;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.util.Duration;
 
 /**
