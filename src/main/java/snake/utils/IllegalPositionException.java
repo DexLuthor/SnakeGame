@@ -1,4 +1,4 @@
-package Snake.Utils;
+package snake.utils;
 
 public class IllegalPositionException extends Exception {
 

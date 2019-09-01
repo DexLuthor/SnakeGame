@@ -1,6 +1,6 @@
-package Snake.Entities;
+package snake.entities;
 
-import Snake.Utils.IllegalPositionException;
+import snake.utils.IllegalPositionException;
 import javafx.scene.shape.Circle;
 
 public abstract class Fruit extends Circle {

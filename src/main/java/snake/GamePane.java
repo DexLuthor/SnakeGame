@@ -1,7 +1,8 @@
-package Snake;
+package snake;
 
-import Snake.Interfaces.*;
-import Snake.engine.GameLogic;
+import snake.entities.SnakeManager;
+import snake.interfaces.*;
+import snake.engine.GameLogic;
 import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.layout.Pane;
@@ -27,7 +28,6 @@ public class GamePane extends Application implements IGraphicInterface {
         root = new Pane();
         root.setPrefSize(WIDTH, HEIGHT);
         scene = new Scene(root, Color.BLACK);
-        //scene.setOnMouseClicked(event -> System.out.println("x: " + event.getX() + " y: " + event.getY()));
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -54,7 +54,7 @@ public class GamePane extends Application implements IGraphicInterface {
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Snake");
+        stage.setTitle("snake");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();

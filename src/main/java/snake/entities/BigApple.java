@@ -1,13 +1,13 @@
-package Snake.Entities;
+package snake.entities;
 
-import Snake.Utils.IllegalPositionException;
+import snake.utils.IllegalPositionException;
 import javafx.scene.paint.Color;
-import Snake.GamePane;
+import snake.GamePane;
 
 public class BigApple extends Fruit {
     //     =============== CONSTANTS ===============
     public static final int TIME_TO_LIVE = 8;
-    private static final int VALUE = 3;
+    private static final int VALUE = 2;
     private static final int RADIUS = 20;
 
     // =============== Fields ===============

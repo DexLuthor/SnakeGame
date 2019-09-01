@@ -1,14 +1,11 @@
-package Snake.engine;
+package snake.engine;
 
-import Snake.Entities.*;
-import Snake.Interfaces.*;
-import Snake.Utils.Utils;
+import snake.entities.*;
+import snake.interfaces.*;
+import snake.utils.Utils;
 import javafx.animation.*;
 import javafx.util.Duration;
 
-/**
- * класс отвечающий за логику игры:
- */
 public class GameLogic implements IGameLogic {
     // =============== Fields ===============
     private final IGraphicInterface gui;
@@ -21,30 +18,21 @@ public class GameLogic implements IGameLogic {
     private Apple apple;
     private BigApple bigApple;
 
-    // =============== Inner enum ===============
-    /**
-     * перечисление четырех напралений в которых может двигаться змейка
-     */
-    public enum Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    }
+    // =============== Enum ===============
+    public enum Direction {UP, DOWN, LEFT, RIGHT}
+
     // =============== Constructors ===============
     public GameLogic(IGraphicInterface gui) {
         this.gui = gui;
     }
 
     // =============== Methods ===============
-
     @Override
     public void initGame() {
         createContent();
         startSnake();
-        startGenerateApples();
+        startGeneratingApples();
     }
-
     private void createContent() {
         gui.addObject(Snake.getInstance());
         plantApple();
@@ -73,7 +61,7 @@ public class GameLogic implements IGameLogic {
             }
         }).start();
     }
-    private void startGenerateApples() {
+    private void startGeneratingApples() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(BigApple.TIME_TO_LIVE), event -> {
             if (Math.random() > 0.8) {
                 if (bigApple != null) {
@@ -95,23 +83,23 @@ public class GameLogic implements IGameLogic {
         }
     }
     private void checkPositionWithinBorders() {
-        if (snake.getXCoordinate() < 10 || snake.getXCoordinate() > 490) {
+        if (snake.getXCoordinate() < 10 || snake.getXCoordinate() > 490 ||
+                snake.getYCoordinate() < 10 || snake.getYCoordinate() > 490) {
             snake.setAlive(false);
-        }
-        if (snake.getYCoordinate() < 10 || snake.getYCoordinate() > 490) {
-            snake.setAlive(false);
+            finishGame();
         }
     }
     private void checkPositionRelativeToFruit() {
         if (snake.distanceTo(apple) < 12) { // FIXME прописать нормальную дистанцию
-            snake.eatFruit(bigApple);
+            snake.eatFruit(apple);
             removeFruit(apple);
-            //addPart(); // TODO
             plantApple();
+            addPartToSnake(new PartOfBody());
         }
         if (bigApple != null && snake.distanceTo(bigApple) < 15) {
             snake.eatFruit(bigApple);
-            //addPart(); // TODO
+      //      addPart();  TODO
+
             removeFruit(bigApple);
         }
     }
@@ -123,15 +111,17 @@ public class GameLogic implements IGameLogic {
         }
     }
     private Direction getOppositeDirection(Direction direction){
-        if (direction == Direction.UP) {
-            return Direction.DOWN;
-        } else if(direction == Direction.LEFT) {
-            return Direction.RIGHT;
-        } else if(direction == Direction.DOWN) {
-            return Direction.UP;
-        } else { // direction == Direction.RIGHT
-            return Direction.LEFT;
-        }
+       switch (direction){
+           case UP:
+               return Direction.DOWN;
+           case LEFT:
+               return Direction.RIGHT;
+           case DOWN:
+               return Direction.UP;
+           case RIGHT:
+               return Direction.LEFT;
+       }
+       return null;
     }
 
     private void plantApple() {
@@ -148,8 +138,9 @@ public class GameLogic implements IGameLogic {
         this.bigApple = null;
     }
 
-    private void addPart() { // TODO
-        gui.addObject(snake.new PartOfBody());
+    private void addPartToSnake(PartOfBody partOfBody) {
+        SnakeManager.add(partOfBody);
+        gui.addObject(partOfBody);
     }
 
     @Override

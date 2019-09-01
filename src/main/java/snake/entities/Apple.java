@@ -1,8 +1,8 @@
-package Snake.Entities;
+package snake.entities;
 
-import Snake.Utils.IllegalPositionException;
+import snake.utils.IllegalPositionException;
 import javafx.scene.paint.Color;
-import Snake.GamePane;
+import snake.GamePane;
 
 public class Apple extends Fruit {
     //     =============== CONSTANTS ===============

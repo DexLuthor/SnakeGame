@@ -1,6 +1,6 @@
-package Snake.Interfaces;
+package snake.interfaces;
 
-import Snake.engine.GameLogic;
+import snake.engine.GameLogic;
 
 public interface IGameLogic {
     void initGame();
