@@ -2,8 +2,7 @@ package snake.utils;
 
 public class IllegalPositionException extends Exception {
 
-    public IllegalPositionException() {
-    }
+    public IllegalPositionException() {}
     public IllegalPositionException(String message) {
         super(message);
     }

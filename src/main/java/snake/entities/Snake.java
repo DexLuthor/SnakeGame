@@ -21,11 +21,9 @@ public final class Snake extends Cell {
         super();
         isAlive = true;
         color = Color.WHITE;
-
+        setFill(color);
         setXCoordinate((GamePane.WIDTH + 12) / 2);// устанавливаю центр змейки в центре площади
         setYCoordinate((GamePane.HEIGHT + 12) / 2);
-
-        setFill(color);
     }
 
     // =============== Get/Set ===============

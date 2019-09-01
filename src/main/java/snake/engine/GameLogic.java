@@ -19,7 +19,21 @@ public class GameLogic implements IGameLogic {
     private BigApple bigApple;
 
     // =============== Enum ===============
-    public enum Direction {UP, DOWN, LEFT, RIGHT}
+    public enum Direction { UP, DOWN, LEFT, RIGHT;
+        private Direction getOppositeDirection(){
+            switch (this){
+                case UP:
+                    return Direction.DOWN;
+                case LEFT:
+                    return Direction.RIGHT;
+                case DOWN:
+                    return Direction.UP;
+                case RIGHT:
+                    return Direction.LEFT;
+            }
+            return null;
+        }
+    }
 
     // =============== Constructors ===============
     public GameLogic(IGraphicInterface gui) {
@@ -31,7 +45,7 @@ public class GameLogic implements IGameLogic {
     public void initGame() {
         createContent();
         startSnake();
-        startGeneratingApples();
+        startGeneratingBigApples();
     }
     private void createContent() {
         gui.addObject(Snake.getInstance());
@@ -61,7 +75,7 @@ public class GameLogic implements IGameLogic {
             }
         }).start();
     }
-    private void startGeneratingApples() {
+    private void startGeneratingBigApples() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(BigApple.TIME_TO_LIVE), event -> {
             if (Math.random() > 0.8) {
                 if (bigApple != null) {
@@ -98,30 +112,16 @@ public class GameLogic implements IGameLogic {
         }
         if (bigApple != null && snake.distanceTo(bigApple) < 15) {
             snake.eatFruit(bigApple);
-      //      addPart();  TODO
-
+            addTwoPartsToSnake(new PartOfBody(), new PartOfBody());
             removeFruit(bigApple);
         }
     }
 
     @Override
     public void changeDirection(Direction direction) {
-        if (this.direction != getOppositeDirection(direction)) {
+        if (this.direction != direction.getOppositeDirection()) {
             this.direction = direction;
         }
-    }
-    private Direction getOppositeDirection(Direction direction){
-       switch (direction){
-           case UP:
-               return Direction.DOWN;
-           case LEFT:
-               return Direction.RIGHT;
-           case DOWN:
-               return Direction.UP;
-           case RIGHT:
-               return Direction.LEFT;
-       }
-       return null;
     }
 
     private void plantApple() {
@@ -141,6 +141,10 @@ public class GameLogic implements IGameLogic {
     private void addPartToSnake(PartOfBody partOfBody) {
         SnakeManager.add(partOfBody);
         gui.addObject(partOfBody);
+    }
+    private void addTwoPartsToSnake(PartOfBody partOfBody1, PartOfBody partOfBody2){
+       addPartToSnake(partOfBody1);
+       addPartToSnake(partOfBody2);
     }
 
     @Override
