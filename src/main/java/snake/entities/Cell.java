@@ -8,6 +8,21 @@ public abstract class Cell extends Rectangle implements ICell {
     protected static final int WIDTH = 20;
     protected static final int HEIGHT = 20;
 
+    //     =============== FIELDS ===============
+    protected double previousXCoordinate;
+    protected double previousYCoordinate;
+    public double getPreviousXCoordinate() {
+        return previousXCoordinate;
+    }
+    public double getPreviousYCoordinate() {
+        return previousYCoordinate;
+    }
+
+    protected void updatePreviousPosition(){ // FIXME(когда запускается во время шага или как)
+        previousXCoordinate = getXCoordinate();
+        previousYCoordinate = getYCoordinate();
+    }
+
     //     =============== GET/SET ===============
     @Override public final void setXCoordinate(double x) {
         setX(x - WIDTH / 2);
@@ -23,7 +38,7 @@ public abstract class Cell extends Rectangle implements ICell {
     }
 
     //     =============== CONSTRUCTORS ===============
-    protected Cell(){
+    public Cell(){
         setWidth(WIDTH);
         setHeight(HEIGHT);
     }

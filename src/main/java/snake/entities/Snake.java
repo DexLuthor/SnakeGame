@@ -47,15 +47,9 @@ public final class Snake extends Cell {
     }
 
     public void eatFruit(Fruit fruit) {
-       // addPartToBody();
         updateSnakeLength(fruit);
     }
-    private void addPartToBody(){
-    //      if (nextPartOfBody == null) {
-    //            nextPartOfBody = new PartOfBody(); FIXME TODO
-    //    }
-    }
-    private int updateSnakeLength(Fruit fruit) {
+    public int updateSnakeLength(Fruit fruit) {
         return snakeLength += fruit.getValue();
     }
 
@@ -67,25 +61,25 @@ public final class Snake extends Cell {
     public void moveUp() {
         if (currentDirection == null || currentDirection != GameLogic.Direction.DOWN) {
             currentDirection = GameLogic.Direction.UP;
-            setYCoordinate(getYCoordinate() - 10);
+            setYCoordinate(getYCoordinate() - 20);
         }
     }
     public void moveLeft() {
         if (currentDirection == null || currentDirection != GameLogic.Direction.RIGHT) {
             currentDirection = GameLogic.Direction.LEFT;
-            setXCoordinate(getXCoordinate() - 10);
+            setXCoordinate(getXCoordinate() - 20);
         }
     }
     public void moveDown() {
         if (currentDirection == null || currentDirection != GameLogic.Direction.UP) {
             currentDirection = GameLogic.Direction.DOWN;
-            setYCoordinate(getYCoordinate() + 10);
+            setYCoordinate(getYCoordinate() + 20);
         }
     }
     public void moveRight() {
         if (currentDirection == null || currentDirection != GameLogic.Direction.LEFT) {
             currentDirection = GameLogic.Direction.RIGHT;
-            setXCoordinate(getXCoordinate() + 10);
+            setXCoordinate(getXCoordinate() + 20);
         }
     }
 

@@ -4,12 +4,15 @@ import snake.utils.IllegalPositionException;
 import javafx.scene.paint.Color;
 import snake.GamePane;
 
-public class Apple extends Fruit {
+public final class Apple extends Fruit {
     //     =============== CONSTANTS ===============
-    private final static int VALUE = 1;
-    private final static int RADIUS = 10;
+    private final static int VALUE;
+    private final static int RADIUS;
 
-    // =============== Fields ===============
+    static {
+        VALUE = 1;
+        RADIUS = 10;
+    }
 
     // =============== Get/Set ===============
     @Override
@@ -23,7 +26,7 @@ public class Apple extends Fruit {
     @Override
     public void setY(double y) throws IllegalPositionException {//FIXME
         if (y < 5 || y > GamePane.WIDTH - 5) {
-            throw new IllegalPositionException("ru.edem.snake.entities.Apple is on wrong position");
+            throw new IllegalPositionException("Apple is on wrong position");
         }
         setCenterY(y);
     }

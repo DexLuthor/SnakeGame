@@ -41,37 +41,47 @@ public class GameLogic implements IGameLogic {
     }
 
     // =============== Methods ===============
-    @Override
-    public void initGame() {
+//    public void updateScoreLabel(){
+//        gui.getScoreLabel().setText(String.valueOf(SnakeManager.getPartsCount()));
+//    }
+
+    @Override public void initGame() {
         createContent();
-        startSnake();
+        startMoveSnake();
         startGeneratingBigApples();
     }
     private void createContent() {
         gui.addObject(Snake.getInstance());
         plantApple();
     }
-    private void startSnake() {
+    private void startMoveSnake() {
         new Thread(() -> {
-            while (isGameRunning) {
-                if (snake.isAlive()) {
-                    switch (direction) {
-                        case UP:
-                            snake.moveUp();
-                            break;
-                        case LEFT:
-                            snake.moveLeft();
-                            break;
-                        case DOWN:
-                            snake.moveDown();
-                            break;
-                        case RIGHT:
-                            snake.moveRight();
-                            break;
-                    }
-                    checkSnakePosition();
-                    Utils.sleep(100);
+            while (isGameRunning && snake.isAlive()) {
+                switch (direction) {
+                    case UP:
+                        SnakeManager.updatePreviousPositions();
+                        snake.moveUp();
+                        SnakeManager.moveBody();
+                        break;
+                    case LEFT:
+                        SnakeManager.updatePreviousPositions();
+                        snake.moveLeft();
+                        SnakeManager.moveBody();
+                        break;
+                    case DOWN:
+                        SnakeManager.updatePreviousPositions();
+                        snake.moveDown();
+                        SnakeManager.moveBody();
+                        break;
+                    case RIGHT:
+                        SnakeManager.updatePreviousPositions();
+                        snake.moveRight();
+                        SnakeManager.moveBody();
+                        break;
                 }
+
+                checkSnakePosition();
+                Utils.sleep(250);
             }
         }).start();
     }
@@ -103,22 +113,22 @@ public class GameLogic implements IGameLogic {
             finishGame();
         }
     }
-    private void checkPositionRelativeToFruit() {
+    private void checkPositionRelativeToFruit() {//TODO refactor
         if (snake.distanceTo(apple) < 12) { // FIXME прописать нормальную дистанцию
             snake.eatFruit(apple);
             removeFruit(apple);
             plantApple();
-            addPartToSnake(new PartOfBody());
+            addPartToSnake();
         }
         if (bigApple != null && snake.distanceTo(bigApple) < 15) {
             snake.eatFruit(bigApple);
-            addTwoPartsToSnake(new PartOfBody(), new PartOfBody());
             removeFruit(bigApple);
+            addTwoPartsToSnake();
         }
+        //updateScoreLabel();
     }
 
-    @Override
-    public void changeDirection(Direction direction) {
+    @Override public void changeDirection(Direction direction) {
         if (this.direction != direction.getOppositeDirection()) {
             this.direction = direction;
         }
@@ -131,24 +141,22 @@ public class GameLogic implements IGameLogic {
 
     private void removeFruit(Apple apple) {
         gui.removeObject(apple);
-        this.apple = null;
     }
     private void removeFruit(BigApple bigApple) {
         gui.removeObject(bigApple);
         this.bigApple = null;
     }
 
-    private void addPartToSnake(PartOfBody partOfBody) {
-        SnakeManager.add(partOfBody);
-        gui.addObject(partOfBody);
+    private void addPartToSnake() {
+        SnakeManager.add();
+        gui.addObject(new PartOfSnake());
     }
-    private void addTwoPartsToSnake(PartOfBody partOfBody1, PartOfBody partOfBody2){
-       addPartToSnake(partOfBody1);
-       addPartToSnake(partOfBody2);
+    private void addTwoPartsToSnake(){
+       addPartToSnake();
+       addPartToSnake();
     }
 
-    @Override
-    public void finishGame() {
+    @Override public void finishGame() {
         isGameRunning = false;
     }
 }
