@@ -1,5 +1,6 @@
 package snake.engine;
 
+import org.jetbrains.annotations.NotNull;
 import snake.entities.*;
 import snake.interfaces.*;
 import snake.utils.Utils;
@@ -41,10 +42,6 @@ public class GameLogic implements IGameLogic {
     }
 
     // =============== Methods ===============
-//    public void updateScoreLabel(){
-//        gui.getScoreLabel().setText(String.valueOf(SnakeManager.getPartsCount()));
-//    }
-
     @Override public void initGame() {
         createContent();
         startMoveSnake();
@@ -57,31 +54,24 @@ public class GameLogic implements IGameLogic {
     private void startMoveSnake() {
         new Thread(() -> {
             while (isGameRunning && snake.isAlive()) {
+                SnakeManager.updatePreviousPositions();
                 switch (direction) {
                     case UP:
-                        SnakeManager.updatePreviousPositions();
                         snake.moveUp();
-                        SnakeManager.moveBody();
                         break;
                     case LEFT:
-                        SnakeManager.updatePreviousPositions();
                         snake.moveLeft();
-                        SnakeManager.moveBody();
                         break;
                     case DOWN:
-                        SnakeManager.updatePreviousPositions();
                         snake.moveDown();
-                        SnakeManager.moveBody();
                         break;
                     case RIGHT:
-                        SnakeManager.updatePreviousPositions();
                         snake.moveRight();
-                        SnakeManager.moveBody();
                         break;
                 }
-
+                SnakeManager.moveBody();
                 checkSnakePosition();
-                Utils.sleep(250);
+                Utils.sleep(100);
             }
         }).start();
     }
@@ -106,14 +96,13 @@ public class GameLogic implements IGameLogic {
             checkPositionRelativeToFruit();
         }
     }
-    private void checkPositionWithinBorders() {
+    private void checkPositionWithinBorders() { //TODO adaptive
         if (snake.getXCoordinate() < 10 || snake.getXCoordinate() > 490 ||
                 snake.getYCoordinate() < 10 || snake.getYCoordinate() > 490) {
-            snake.setAlive(false);
             finishGame();
         }
     }
-    private void checkPositionRelativeToFruit() {//TODO refactor
+    private void checkPositionRelativeToFruit() {//TODO refactor, adaptive
         if (snake.distanceTo(apple) < 12) { // FIXME прописать нормальную дистанцию
             snake.eatFruit(apple);
             removeFruit(apple);
@@ -125,10 +114,9 @@ public class GameLogic implements IGameLogic {
             removeFruit(bigApple);
             addTwoPartsToSnake();
         }
-        //updateScoreLabel();
     }
 
-    @Override public void changeDirection(Direction direction) {
+    @Override public void changeDirection(@NotNull Direction direction) {
         if (this.direction != direction.getOppositeDirection()) {
             this.direction = direction;
         }
@@ -148,8 +136,9 @@ public class GameLogic implements IGameLogic {
     }
 
     private void addPartToSnake() {
-        SnakeManager.add();
-        gui.addObject(new PartOfSnake());
+        Snake.PartOfSnake partOfSnake = new Snake.PartOfSnake();
+        SnakeManager.add(partOfSnake);
+        gui.addObject(partOfSnake);
     }
     private void addTwoPartsToSnake(){
        addPartToSnake();
@@ -157,6 +146,7 @@ public class GameLogic implements IGameLogic {
     }
 
     @Override public void finishGame() {
+        snake.setAlive(false);
         isGameRunning = false;
     }
 }

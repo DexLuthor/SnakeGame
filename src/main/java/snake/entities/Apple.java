@@ -2,7 +2,7 @@ package snake.entities;
 
 import snake.utils.IllegalPositionException;
 import javafx.scene.paint.Color;
-import snake.GamePane;
+import snake.pane.GamePane;
 
 public final class Apple extends Fruit {
     //     =============== CONSTANTS ===============

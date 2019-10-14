@@ -1,9 +1,8 @@
 package snake.utils;
 
 public class Utils {
-    //  Utils class is not creating for instantiation
     private Utils() throws IllegalAccessException {
-        throw new IllegalAccessException("Utils class is not creating for instantiation");
+        throw new IllegalAccessException("Utils class is not created for instantiation");
     }
 
     public static void sleep(long millis) {

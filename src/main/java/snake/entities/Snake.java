@@ -1,29 +1,35 @@
 package snake.entities;
 
-import snake.GamePane;
-import snake.engine.GameLogic;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import snake.interfaces.ICell;
+import org.jetbrains.annotations.NotNull;
+import snake.pane.GamePane;
+import snake.engine.GameLogic;
 
-import java.util.LinkedList;
 
 public final class Snake extends Cell {
+
+    public static final class PartOfSnake extends Cell{
+        public PartOfSnake() {
+
+            setPosition(-50, -50);
+        }
+        public void follow(@NotNull Cell cell){
+            setPosition(cell.getPreviousXCoordinate(), cell.getPreviousYCoordinate());
+        }
+    }
+
     // =============== Fields ===============
     private boolean isAlive;
     private int snakeLength = 1;
     private GameLogic.Direction currentDirection;
     private static volatile Snake snakeInstance;
-    private Color color;
 
     // =============== Constructors ===============
     private Snake() {
         super();
         isAlive = true;
-        color = Color.WHITE;
-        setFill(color);
         setXCoordinate((GamePane.WIDTH + 12) / 2);// устанавливаю центр змейки в центре площади
-        setYCoordinate((GamePane.HEIGHT + 12) / 2);
+        setYCoordinate((GamePane.HEIGHT + 12) / 2);//TODO адаптивность
     }
 
     // =============== Get/Set ===============
@@ -49,11 +55,11 @@ public final class Snake extends Cell {
     public void eatFruit(Fruit fruit) {
         updateSnakeLength(fruit);
     }
-    public int updateSnakeLength(Fruit fruit) {
+    public int updateSnakeLength(@NotNull Fruit fruit) {
         return snakeLength += fruit.getValue();
     }
 
-    public double distanceTo(Fruit fruit) {
+    public double distanceTo(@NotNull Fruit fruit) {
         return Math.sqrt(Math.abs((fruit.getX() - getXCoordinate()) * (fruit.getX() - getXCoordinate())
                 + (fruit.getY() - getYCoordinate()) * (fruit.getY() - getYCoordinate())));
     }
@@ -83,6 +89,7 @@ public final class Snake extends Cell {
         }
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "x: " + getXCoordinate() + " y: " + getYCoordinate();

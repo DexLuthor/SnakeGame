@@ -1,4 +1,4 @@
-package snake;
+package snake.pane;
 
 import snake.interfaces.*;
 import snake.engine.GameLogic;
@@ -9,27 +9,36 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
- * Класс ответственные за игровое поле
+ * @author Yevhenii Kozhevin
+ *
+ * Class is responsible for area, where game is running
  */
 public class GamePane extends Application implements IGraphicInterface {
     // =============== CONSTANTS ===============
+    /**
+     * Width of the window
+     */
     public static final int WIDTH = 488; // 488 because javaFX adds additional 12 pix
+    /**
+     * Height of the window
+     */
     public static final int HEIGHT = 488;
 
     // =============== Fields ===============
     private Pane root;
     private Scene scene;
 
-    //private Label scoreLabel;
-
     private IGameLogic logic = new GameLogic(this);
     // =============== Methods ===============
+
+    /**
+     * The method initializes root element, key handler, game and sets size,
+     */
     @Override
     public void init() {
         root = new Pane();
         root.setPrefSize(WIDTH, HEIGHT);
         scene = new Scene(root, Color.BLACK);
-    //    addScorePanel(); // TODO
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -54,14 +63,6 @@ public class GamePane extends Application implements IGraphicInterface {
         logic.initGame();
     }
 
-//    private void addScorePanel(){
-//        scoreLabel = new Label("0");
-//    }
-
-//    public Label getScoreLabel() {
-//        return scoreLabel;
-//    }
-
     @Override public void start(Stage stage) {
         stage.setTitle("snake");
         stage.setResizable(false);
@@ -69,16 +70,27 @@ public class GamePane extends Application implements IGraphicInterface {
         stage.show();
     }
 
+    /**
+     * The method stops the game
+     */
     @Override
     public void stop() {
         logic.finishGame();
     }
 
+    /**
+     * The method place an object on the pane
+     * @param node - element to place
+     */
     @Override
     public void addObject(Node node) {
         Platform.runLater(() -> root.getChildren().add(node));
     }
 
+    /**
+     * The method remove an object from the pane
+     * @param node - element to remove
+     */
     @Override
     public void removeObject(Node node) {
         Platform.runLater(() -> root.getChildren().remove(node));

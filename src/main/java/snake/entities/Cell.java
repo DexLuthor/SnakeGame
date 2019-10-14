@@ -1,5 +1,6 @@
 package snake.entities;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import snake.interfaces.ICell;
 
@@ -41,6 +42,7 @@ public abstract class Cell extends Rectangle implements ICell {
     public Cell(){
         setWidth(WIDTH);
         setHeight(HEIGHT);
+        setFill(Color.WHITE);
     }
 
     //     =============== METHODS ===============
