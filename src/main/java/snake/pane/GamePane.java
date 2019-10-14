@@ -1,5 +1,12 @@
 package snake.pane;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import snake.entities.SnakeManager;
 import snake.interfaces.*;
 import snake.engine.GameLogic;
 import javafx.application.*;
@@ -7,6 +14,8 @@ import javafx.scene.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 /**
  * @author Yevhenii Kozhevin
@@ -28,6 +37,8 @@ public class GamePane extends Application implements IGraphicInterface {
     private Pane root;
     private Scene scene;
 
+    private Label labelScore;
+
     private IGameLogic logic = new GameLogic(this);
     // =============== Methods ===============
 
@@ -38,9 +49,13 @@ public class GamePane extends Application implements IGraphicInterface {
     public void init() {
         root = new Pane();
         root.setPrefSize(WIDTH, HEIGHT);
-        scene = new Scene(root, Color.BLACK);
 
+        createLabel();
+
+        scene = new Scene(new Group(root, labelScore), Color.BLACK);
+        scene.setOnMouseClicked(e -> System.out.println(e.getX() + "" + e.getY())); //REFACTOR
         scene.setOnKeyPressed(event -> {
+
             switch (event.getCode()) {
                 case W:
                 case UP:
@@ -63,8 +78,23 @@ public class GamePane extends Application implements IGraphicInterface {
         logic.initGame();
     }
 
+    private void createLabel(){
+        labelScore = new Label(String.valueOf(SnakeManager.getScore()));
+        labelScore.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        labelScore.setTextFill(Color.WHITE);
+        labelScore.setStyle("-fx-font-size: 25; -fx-font-weight: bold" );
+        labelScore.setPrefWidth(100);
+        labelScore.setPrefHeight(25);
+        labelScore.setLayoutX(400);
+        labelScore.setLayoutY(475);
+    }
+
+    public void updateLabelScore(){
+        Platform.runLater(() -> labelScore.setText(String.valueOf(SnakeManager.getScore())));
+    }
+
     @Override public void start(Stage stage) {
-        stage.setTitle("snake");
+        stage.setTitle("Snake");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();

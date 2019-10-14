@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 public interface IGraphicInterface {
     void addObject(Node node);
     void removeObject(Node node);
+    void updateLabelScore();
 
   //  Label getScoreLabel();
 }
