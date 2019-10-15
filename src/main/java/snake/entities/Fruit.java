@@ -1,10 +1,14 @@
 package snake.entities;
 
-import snake.utils.IllegalPositionException;
 import javafx.scene.shape.Circle;
 
+/**
+ * @author Yevhenii Kozhevin
+ */
 public abstract class Fruit extends Circle {
     // =============== Fields ===============
+    protected static int VALUE;
+    protected static int RADIUS;
 
     // =============== Constructors ===============
     public Fruit(double x, double y) {
@@ -16,19 +20,17 @@ public abstract class Fruit extends Circle {
         return getCenterX();
     }
 
+    public static int getValue() {
+        return VALUE;
+    }
+
     public double getY() {
         return getCenterY();
     }
-
-    protected abstract void setX(double x) throws IllegalPositionException;
-
-    protected abstract void setY(double y) throws IllegalPositionException;
 
     // =============== Methods ===============
     public void setPosition(double x, double y) {
         setCenterX(x);
         setCenterY(y);
     }
-
-    protected abstract int getValue();
 }

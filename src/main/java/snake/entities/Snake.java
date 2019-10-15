@@ -4,21 +4,26 @@ import org.jetbrains.annotations.NotNull;
 import snake.engine.GameLogic;
 import snake.pane.GamePane;
 
+/**
+ * @author Yevhenii Kozhevin
+ */
 public final class Snake extends Cell {
-
-    private static volatile Snake snakeInstance;
     // =============== Fields ===============
-    private boolean isAlive;
-    private int snakeLength = 1;
+    private static volatile Snake snakeInstance;
     private GameLogic.Direction currentDirection;
+
     // =============== Constructors ===============
     private Snake() {
-        isAlive = true;
-        setXCoordinate((GamePane.WIDTH + 12) / 2);// устанавливаю центр змейки в центре площади
-        setYCoordinate((GamePane.HEIGHT + 12) / 2);//TODO адаптивность
+        // sets center of head in the center of the pane
+        setXCoordinate((GamePane.WIDTH + (getWidth() / 2)) / 2);
+        setYCoordinate((GamePane.HEIGHT + (getWidth() / 2)) / 2);
     }
 
     // =============== Methods ===============
+
+    /**
+     * Creates instance of Snake or return if exists
+     */
     public static Snake getInstance() {
         if (snakeInstance == null) {
             synchronized (Snake.class) {
@@ -28,23 +33,6 @@ public final class Snake extends Cell {
             }
         }
         return snakeInstance;
-    }
-
-    // =============== Get/Set ===============
-    public boolean isAlive() {
-        return isAlive;
-    }
-
-    public void setAlive(boolean isAlive) {
-        this.isAlive = isAlive;
-    }
-
-    public void eatFruit(Fruit fruit) {
-        updateSnakeLength(fruit);
-    }
-
-    public int updateSnakeLength(@NotNull Fruit fruit) {
-        return snakeLength += fruit.getValue();
     }
 
     public double distanceTo(@NotNull Fruit fruit) {
@@ -80,15 +68,8 @@ public final class Snake extends Cell {
         }
     }
 
-    @NotNull
-    @Override
-    public String toString() {
-        return "x: " + getXCoordinate() + " y: " + getYCoordinate();
-    }
-
     public static final class PartOfSnake extends Cell {
         public PartOfSnake() {
-
             setPosition(-50, -50);
         }
 

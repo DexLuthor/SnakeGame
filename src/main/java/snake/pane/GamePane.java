@@ -1,21 +1,22 @@
 package snake.pane;
 
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import snake.entities.SnakeManager;
-import snake.interfaces.*;
-import snake.engine.GameLogic;
-import javafx.application.*;
-import javafx.scene.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.awt.*;
+import snake.engine.GameLogic;
+import snake.entities.SnakeManager;
+import snake.interfaces.IGameLogic;
+import snake.interfaces.IGraphicInterface;
 
 /**
  * @author Yevhenii Kozhevin
@@ -23,6 +24,11 @@ import java.awt.*;
  * Class is responsible for area, where game is running
  */
 public class GamePane extends Application implements IGraphicInterface {
+
+    public static void main(String[] args) {
+        Application.launch(args);
+    }
+
     // =============== CONSTANTS ===============
     /**
      * Width of the window
@@ -36,12 +42,11 @@ public class GamePane extends Application implements IGraphicInterface {
     // =============== Fields ===============
     private Pane root;
     private Scene scene;
-
     private Label labelScore;
 
     private IGameLogic logic = new GameLogic(this);
-    // =============== Methods ===============
 
+    // =============== Methods ===============
     /**
      * The method initializes root element, key handler, game and sets size,
      */
@@ -50,12 +55,34 @@ public class GamePane extends Application implements IGraphicInterface {
         root = new Pane();
         root.setPrefSize(WIDTH, HEIGHT);
 
-        createLabel();
+        labelScore = createAndAdjustLabel();
 
         scene = new Scene(new Group(root, labelScore), Color.BLACK);
-        scene.setOnMouseClicked(e -> System.out.println(e.getX() + "" + e.getY())); //REFACTOR
-        scene.setOnKeyPressed(event -> {
+        initKeyListener(scene);
 
+        logic.initGame();
+    }
+
+    /**
+     * Creates label, which represents gamer's score
+     */
+    private Label createAndAdjustLabel() {
+        Label label = new Label("Score: " + SnakeManager.getScore());
+        label.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        label.setTextFill(Color.WHITE);
+        label.setStyle("-fx-font-size: 20; -fx-font-weight: bold");
+        label.setPrefWidth(130);
+        label.setPrefHeight(20);
+        label.setLayoutX(350);
+        label.setLayoutY(450);
+        return label;
+    }
+
+    /**
+     * Initizlizes key listener so, that it can listen to w, a, s, d and arrows up, left, down, right
+     */
+    private void initKeyListener(Scene scene) {
+        scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case W:
                 case UP:
@@ -75,25 +102,20 @@ public class GamePane extends Application implements IGraphicInterface {
                     break;
             }
         });
-        logic.initGame();
     }
 
-    private void createLabel(){
-        labelScore = new Label(String.valueOf(SnakeManager.getScore()));
-        labelScore.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
-        labelScore.setTextFill(Color.WHITE);
-        labelScore.setStyle("-fx-font-size: 25; -fx-font-weight: bold" );
-        labelScore.setPrefWidth(100);
-        labelScore.setPrefHeight(25);
-        labelScore.setLayoutX(400);
-        labelScore.setLayoutY(475);
+    /**
+     * Updates label, which represents gamer's score
+     */
+    public void updateLabelScore() {
+        Platform.runLater(() -> labelScore.setText("Score: " + SnakeManager.getScore()));
     }
 
-    public void updateLabelScore(){
-        Platform.runLater(() -> labelScore.setText(String.valueOf(SnakeManager.getScore())));
-    }
-
-    @Override public void start(Stage stage) {
+    /**
+     * The method starts the game
+     */
+    @Override
+    public void start(Stage stage) {
         stage.setTitle("Snake");
         stage.setResizable(false);
         stage.setScene(scene);
@@ -110,6 +132,7 @@ public class GamePane extends Application implements IGraphicInterface {
 
     /**
      * The method place an object on the pane
+     *
      * @param node - element to place
      */
     @Override
@@ -119,15 +142,11 @@ public class GamePane extends Application implements IGraphicInterface {
 
     /**
      * The method remove an object from the pane
+     *
      * @param node - element to remove
      */
     @Override
     public void removeObject(Node node) {
         Platform.runLater(() -> root.getChildren().remove(node));
-    }
-
-    // #################################################
-    public static void main(String[] args) {
-        Application.launch(args);
     }
 }

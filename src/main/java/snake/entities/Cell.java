@@ -2,9 +2,8 @@ package snake.entities;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import snake.interfaces.ICell;
 
-public abstract class Cell extends Rectangle implements ICell {
+public abstract class Cell extends Rectangle {
     //     =============== CONSTANTS ===============
     protected static final int WIDTH = 20;
     protected static final int HEIGHT = 20;
@@ -12,37 +11,42 @@ public abstract class Cell extends Rectangle implements ICell {
     //     =============== FIELDS ===============
     protected double previousXCoordinate;
     protected double previousYCoordinate;
+
+    //     =============== CONSTRUCTORS ===============
+    public Cell() {
+        setWidth(WIDTH);
+        setHeight(HEIGHT);
+        setFill(Color.WHITE);
+    }
+
     public double getPreviousXCoordinate() {
         return previousXCoordinate;
     }
+
     public double getPreviousYCoordinate() {
         return previousYCoordinate;
     }
 
-    protected void updatePreviousPosition(){ // FIXME(когда запускается во время шага или как)
+    protected void updatePreviousPosition() {
         previousXCoordinate = getXCoordinate();
         previousYCoordinate = getYCoordinate();
     }
 
     //     =============== GET/SET ===============
-    @Override public final void setXCoordinate(double x) {
-        setX(x - WIDTH / 2);
-    }
-    @Override public final void setYCoordinate(double y) {
-        setY(y - HEIGHT / 2);
-    }
-    @Override public final double getXCoordinate() {
+    public final double getXCoordinate() {
         return getX() + WIDTH / 2;
     }
-    @Override public final double getYCoordinate() {
+
+    public final void setXCoordinate(double x) {
+        setX(x - WIDTH / 2);
+    }
+
+    public final double getYCoordinate() {
         return getY() + HEIGHT / 2;
     }
 
-    //     =============== CONSTRUCTORS ===============
-    public Cell(){
-        setWidth(WIDTH);
-        setHeight(HEIGHT);
-        setFill(Color.WHITE);
+    public final void setYCoordinate(double y) {
+        setY(y - HEIGHT / 2);
     }
 
     //     =============== METHODS ===============

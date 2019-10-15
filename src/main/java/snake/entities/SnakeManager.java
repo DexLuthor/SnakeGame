@@ -3,6 +3,12 @@ package snake.entities;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Tasks:
+ * Пофикстить увеличение размера маленького яблока
+ * Прописать норм дистанцию при кушании сблок
+ * Прописать нормальные спавны яблокам
+ */
 //TODO разобрать класс и добро пожаловать в гейм лоджик
 public final class SnakeManager {
     public static final List<Snake.PartOfSnake> PARTS;
@@ -13,8 +19,8 @@ public final class SnakeManager {
         SNAKE = Snake.getInstance();
     }
 
-    private SnakeManager() {
-        throw new AssertionError("Non-instantiating class");
+    private SnakeManager() throws IllegalAccessException {
+        throw new IllegalAccessException("Non-instantiating class");
     }
 
     public static final void add(Snake.PartOfSnake partOfSnake) {
