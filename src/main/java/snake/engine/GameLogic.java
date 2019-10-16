@@ -6,9 +6,12 @@ import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-import snake.entities.*;
+import snake.entities.Apple;
+import snake.entities.BigApple;
+import snake.entities.Snake;
 import snake.interfaces.IGameLogic;
 import snake.interfaces.IGraphicInterface;
+import snake.noname.FruitFactory;
 import snake.utils.Utils;
 
 /**
@@ -21,6 +24,8 @@ public class GameLogic implements IGameLogic {
 
     // =============== Fields ===============
     private boolean isGameRunning = true;
+
+    private Timeline timeline;
 
     private Direction direction = Direction.UP;
 
@@ -111,10 +116,14 @@ public class GameLogic implements IGameLogic {
     }
 
     private void startGeneratingBigApples() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(BigApple.TIME_TO_REGENERATE), event -> {
-            if (Math.random() > 0.3) {
-                bigApple = (BigApple) FruitFactory.instanceOf(FruitFactory.Fruits.BIG_APPLE);
-                gui.addObject(bigApple);
+        timeline = new Timeline(new KeyFrame(Duration.seconds(BigApple.TIME_TO_GENERATE), event -> {
+            if (isGameRunning) {
+                if (Math.random() >= 0) {
+                    bigApple = FruitFactory.INSTANCE.createBigAppleOnRandomPostion();
+                    gui.addObject(bigApple);
+                }
+            } else {
+                timeline.stop(); // TODO брать лишнию объектную переменную
             }
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -129,7 +138,7 @@ public class GameLogic implements IGameLogic {
     }
 
     private void plantApple() {
-        apple = (Apple) FruitFactory.instanceOf(FruitFactory.Fruits.APPLE);
+        apple = FruitFactory.INSTANCE.createAppleOnRandomPosition();
         gui.addObject(apple);
     }
 

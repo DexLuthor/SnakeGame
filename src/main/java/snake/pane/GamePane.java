@@ -14,7 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import snake.engine.GameLogic;
-import snake.entities.SnakeManager;
+import snake.engine.SnakeManager;
 import snake.interfaces.IGameLogic;
 import snake.interfaces.IGraphicInterface;
 

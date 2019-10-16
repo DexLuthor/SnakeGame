@@ -2,6 +2,7 @@ package snake.entities;
 
 import org.jetbrains.annotations.NotNull;
 import snake.engine.GameLogic;
+import snake.noname.Cell;
 import snake.pane.GamePane;
 
 /**

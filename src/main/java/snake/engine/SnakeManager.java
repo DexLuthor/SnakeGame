@@ -1,23 +1,22 @@
-package snake.entities;
+package snake.engine;
+
+import snake.entities.Snake;
+import snake.noname.Cell;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Tasks:
- * Пофикстить увеличение размера маленького яблока
- * Прописать норм дистанцию при кушании сблок
- * Прописать нормальные спавны яблокам
+ * 1.Прописать нормальные спавны яблокам
+ * 2.Прописать норм дистанцию при кушании сблок
+ * 3.Стартовое окно
+ * 4.Проиграшное окно
+ * 5.Поуберать циклические зависимости
  */
 //TODO разобрать класс и добро пожаловать в гейм лоджик
 public final class SnakeManager {
-    public static final List<Snake.PartOfSnake> PARTS;
-    private static final Snake SNAKE;
-
-    static {
-        PARTS = new LinkedList<>();
-        SNAKE = Snake.getInstance();
-    }
+    public static final List<Snake.PartOfSnake> PARTS = new LinkedList<>();
+    private static final Snake SNAKE = Snake.getInstance();
 
     private SnakeManager() throws IllegalAccessException {
         throw new IllegalAccessException("Non-instantiating class");
@@ -38,7 +37,6 @@ public final class SnakeManager {
 
     public static void updatePreviousPositions() {
         SNAKE.updatePreviousPosition();
-
         if (PARTS.size() != 0) {
             PARTS.forEach(Cell::updatePreviousPosition);
         }

@@ -8,15 +8,14 @@ import javafx.scene.shape.Circle;
 public abstract class Fruit extends Circle {
     // =============== Fields ===============
     protected static int VALUE;
-    protected static int RADIUS;
 
     // =============== Constructors ===============
-    public Fruit(double x, double y) {
+    Fruit(double x, double y) {
         setPosition(x, y);
     }
 
     // =============== Get/Set ===============
-    public double getX() {
+    double getX() {
         return getCenterX();
     }
 
@@ -24,12 +23,12 @@ public abstract class Fruit extends Circle {
         return VALUE;
     }
 
-    public double getY() {
+    double getY() {
         return getCenterY();
     }
 
     // =============== Methods ===============
-    public void setPosition(double x, double y) {
+    void setPosition(double x, double y) {
         setCenterX(x);
         setCenterY(y);
     }

@@ -7,18 +7,21 @@ import javafx.scene.paint.Color;
  */
 public final class BigApple extends Fruit {
     // =============== Constants ===============
-    public static final int TIME_TO_REGENERATE = 8;
+    public static final int TIME_TO_GENERATE = 8;
     public static final int TIME_TO_LIVE = 10;
+    public static final int RADIUS;
+    public static final Color COLOR;
 
     static {
         VALUE = 2;
         RADIUS = 20;
+        COLOR = Color.rgb(145, 0, 255);
     }
 
     // =============== Constructors ===============
     public BigApple(double x, double y) {
         super(x, y);
-        setFill(Color.rgb(17, 255, 0));
         setRadius(RADIUS);
+        setFill(COLOR);
     }
 }

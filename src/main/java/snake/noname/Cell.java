@@ -1,12 +1,12 @@
-package snake.entities;
+package snake.noname;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Cell extends Rectangle {
     //     =============== CONSTANTS ===============
-    protected static final int WIDTH = 20;
-    protected static final int HEIGHT = 20;
+    public static final int WIDTH = 20;
+    public static final int HEIGHT = 20;
 
     //     =============== FIELDS ===============
     protected double previousXCoordinate;
@@ -27,7 +27,7 @@ public abstract class Cell extends Rectangle {
         return previousYCoordinate;
     }
 
-    protected void updatePreviousPosition() {
+    public void updatePreviousPosition() {
         previousXCoordinate = getXCoordinate();
         previousYCoordinate = getYCoordinate();
     }
