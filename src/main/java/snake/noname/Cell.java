@@ -5,17 +5,16 @@ import javafx.scene.shape.Rectangle;
 
 public abstract class Cell extends Rectangle {
     //     =============== CONSTANTS ===============
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 20;
-
+    public static final int SIZE = 20;
+  
     //     =============== FIELDS ===============
     protected double previousXCoordinate;
     protected double previousYCoordinate;
 
     //     =============== CONSTRUCTORS ===============
     public Cell() {
-        setWidth(WIDTH);
-        setHeight(HEIGHT);
+        setWidth(SIZE);
+        setHeight(SIZE);
         setFill(Color.WHITE);
     }
 
@@ -34,19 +33,19 @@ public abstract class Cell extends Rectangle {
 
     //     =============== GET/SET ===============
     public final double getXCoordinate() {
-        return getX() + WIDTH / 2;
+        return getX() + SIZE / 2;
     }
 
     public final void setXCoordinate(double x) {
-        setX(x - WIDTH / 2);
+        setX(x - SIZE / 2);
     }
 
     public final double getYCoordinate() {
-        return getY() + HEIGHT / 2;
+        return getY() + SIZE / 2;
     }
 
     public final void setYCoordinate(double y) {
-        setY(y - HEIGHT / 2);
+        setY(y - SIZE / 2);
     }
 
     //     =============== METHODS ===============
