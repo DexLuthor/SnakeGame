@@ -1,10 +1,21 @@
 package snake.utils;
 
+/**
+ * 
+ * @author Yevhenii Kozhevin
+ * 
+ *         Utility class is created to contain
+ */
 public class Utils {
 	private Utils() throws IllegalAccessException {
-		throw new IllegalAccessException("Utils class is not created for instantiation");
+		throw new IllegalAccessException("Useless instance of Utils class");
 	}
 
+	/**
+	 * Wrapper-method for Thread.sleep(int millis) method
+	 * 
+	 * @param millis time for thread sleep
+	 */
 	public static void sleep(long millis) {
 		try {
 			Thread.sleep(millis);

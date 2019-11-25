@@ -1,4 +1,4 @@
-package snake.noname;
+package snake.entities;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

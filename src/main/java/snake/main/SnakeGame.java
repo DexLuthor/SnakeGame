@@ -1,4 +1,4 @@
-package snake.pane;
+package snake.main;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -30,14 +30,11 @@ import snake.interfaces.IGraphicInterface;
  */
 public class SnakeGame extends Application implements IGraphicInterface {
 
-	public static void main(String[] args) {
-		Application.launch(args);
-	}
+	public static void main(String[] args) {Application.launch(args);}
 
 	// =============== CONSTANTS ===============
 	public static final int SIZE = 500;
-	// public static final int HEIGHT = 500;
-
+	
 	// =============== Fields ===============
 	private Pane root;
 	private Scene scene;
@@ -86,8 +83,6 @@ public class SnakeGame extends Application implements IGraphicInterface {
 
 		Stage stage = (Stage) scene.getWindow();
 		scene = new Scene(new Group(root, labelScore), Color.BLACK);
-		
-		scene.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
 		
 		stage.setScene(scene);
 

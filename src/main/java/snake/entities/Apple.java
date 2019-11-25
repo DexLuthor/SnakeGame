@@ -4,6 +4,7 @@ import javafx.scene.paint.Color;
 
 /**
  * @author Yevhenii Kozhevin
+ * 
  */
 public final class Apple extends Fruit {
     public static final int RADIUS;

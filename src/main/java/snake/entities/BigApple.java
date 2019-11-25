@@ -15,7 +15,7 @@ public final class BigApple extends Fruit {
     static {
         VALUE = 2;
         RADIUS = 20;
-        COLOR = Color.rgb(145, 0, 255);
+        COLOR = Color.rgb(255, 215, 0);
     }
 
     // =============== Constructors ===============
