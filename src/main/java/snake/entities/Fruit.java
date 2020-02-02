@@ -7,20 +7,17 @@ import javafx.scene.shape.Circle;
  */
 public abstract class Fruit extends Circle {
     // =============== Fields ===============
-    protected static int VALUE;
-
+    private static final int RADIUS = 10;
+    
     // =============== Constructors ===============
     Fruit(double x, double y) {
+    	setRadius(RADIUS);
         setPosition(x, y);
     }
 
     // =============== Get/Set ===============
     double getX() {
         return getCenterX();
-    }
-
-    public static int getValue() {
-        return VALUE;
     }
 
     double getY() {

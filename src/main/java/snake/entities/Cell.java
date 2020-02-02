@@ -32,16 +32,16 @@ public abstract class Cell extends Rectangle {
     }
 
     //     =============== GET/SET ===============
-    public final double getXCoordinate() {
-        return getX() + SIZE / 2;
+    public final int getXCoordinate() {
+        return (int)(getX() + SIZE / 2);
     }
 
     public final void setXCoordinate(double x) {
         setX(x - SIZE / 2);
     }
 
-    public final double getYCoordinate() {
-        return getY() + SIZE / 2;
+    public final int getYCoordinate() {
+        return (int)(getY() + SIZE / 2);
     }
 
     public final void setYCoordinate(double y) {

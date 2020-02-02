@@ -34,7 +34,7 @@ public class SnakeGame extends Application implements IGraphicInterface {
 
 	// =============== CONSTANTS ===============
 	public static final int SIZE = 500;
-	
+
 	// =============== Fields ===============
 	private Pane root;
 	private Scene scene;
@@ -59,7 +59,7 @@ public class SnakeGame extends Application implements IGraphicInterface {
 
 	private void initGreetingPane() {
 		root = new Pane();
-		root.setPrefSize(SIZE - 12, SIZE - 12); // fx adds additional 12px
+		root.setPrefSize(SIZE - 12, SIZE - 12); // fx/os/jdk adds additional 12px(idk)
 		root.setBackground(new Background(
 				new BackgroundImage(new Image("/snake-bg.jpg", 700, 500, false, true), BackgroundRepeat.NO_REPEAT,
 						BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
@@ -83,7 +83,7 @@ public class SnakeGame extends Application implements IGraphicInterface {
 
 		Stage stage = (Stage) scene.getWindow();
 		scene = new Scene(new Group(root, labelScore), Color.BLACK);
-		
+
 		stage.setScene(scene);
 
 		initKeyListener(scene);
@@ -99,9 +99,6 @@ public class SnakeGame extends Application implements IGraphicInterface {
 		label.setPrefHeight(20);
 		label.setLayoutX(350);
 		label.setLayoutY(450);
-
-		// label.textProperty().bind();
-
 		return label;
 	}
 
