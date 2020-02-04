@@ -1,32 +1,54 @@
 package snake.entities;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 /**
+ * Abstract class for {@code Apple} and {@code Orange}
+ * 
  * @author Yevhenii Kozhevin
  */
 public abstract class Fruit extends Circle {
-    // =============== Fields ===============
-    private static final int RADIUS = 10;
-    
-    // =============== Constructors ===============
-    Fruit(double x, double y) {
-    	setRadius(RADIUS);
-        setPosition(x, y);
-    }
+	// =============== Contants ===============
+	/**
+	 * Radius of fruits
+	 */
+	static final int RADIUS = 10;
 
-    // =============== Get/Set ===============
-    double getX() {
-        return getCenterX();
-    }
+	// =============== Constructors ===============
+	public Fruit(double x, double y, Color color) {
+		setRadius(RADIUS);
+		setPosition(x, y);
+		setFill(color);
+	}
 
-    double getY() {
-        return getCenterY();
-    }
+	// =============== Get/Set ===============
+	/**
+	 * Returns central x coordinate of a fruit
+	 * 
+	 * @return central x coordinate of a fruit
+	 */
+	public double getX() {
+		return getCenterX();
+	}
 
-    // =============== Methods ===============
-    void setPosition(double x, double y) {
-        setCenterX(x);
-        setCenterY(y);
-    }
+	/**
+	 * Returns central y coordinate of a fruit
+	 * 
+	 * @return central y coordinate of a fruit
+	 */
+	public double getY() {
+		return getCenterY();
+	}
+
+	// =============== Methods ===============
+	/**
+	 * Set position of center of a fruit on (x,y)
+	 * @param x
+	 * @param y
+	 */
+	public void setPosition(double x, double y) {
+		setCenterX(x);
+		setCenterY(y);
+	}
 }

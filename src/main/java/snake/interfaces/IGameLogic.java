@@ -2,8 +2,24 @@ package snake.interfaces;
 
 import snake.engine.GameLogic;
 
+/**
+ * 
+ * @author Yevhenii Kozhevin
+ *
+ */
 public interface IGameLogic {
-    void initGame();
-    void changeDirection(GameLogic.Direction direction);
-    void finishGame();
+	/**
+	 * What to do when game is started
+	 */
+	void initGame();
+
+	/**
+	 * Changes snake direction
+	 */
+	void changeDirection(GameLogic.Direction direction);
+
+	/**
+	 * What to do when game is finished
+	 */
+	void finishGame();
 }

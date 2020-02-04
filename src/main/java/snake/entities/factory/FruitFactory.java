@@ -1,41 +1,76 @@
 package snake.entities.factory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import snake.entities.Apple;
 import snake.entities.Orange;
 import snake.entities.Snake;
 
-public enum FruitFactory {
-	INSTANCE;
-
-	private static Integer[] coordinates = new Integer[25];
-	private Snake snake = Snake.getInstance();
+/**
+ * 
+ * Factory creates fruit on random, allowed positions
+ * 
+ * @author Yevhenii Kozhevin
+ *
+ */
+public class FruitFactory {
+	/**
+	 * List of values representing coordinates
+	 */
+	private static List<Integer> coordinates = new ArrayList<Integer>(26);
+	/**
+	 * Singleton object of {@code Snake} class
+	 */
+	private static Snake snake = Snake.getInstance();
 
 	static {
-		for (int i = 0, j = 1; i < coordinates.length; i++, j += 2) {
-			coordinates[i] = j * 10;
+		// filling list coordinates with values
+		for (int i = 0, j = 1; i < 25; i++, j += 2) {
+			coordinates.add(j * 10);
 		}
 	}
 
-	public Apple createAppleOnRandomPosition() {
+	/**
+	 * Returns an {@code Apple} object on random position
+	 * 
+	 * @return an {@code Apple} object on random position
+	 */
+	public static Apple createAppleOnRandomPosition() {
 		return new Apple(generateRandomCoordinate(Axis.X), generateRandomCoordinate(Axis.Y));
 	}
 
-	public Orange createOrangeOnRandomPosition() {
+	/**
+	 * Returns an {@code Orange} object on random position
+	 * 
+	 * @return an {@code Orange} object on random position
+	 */
+	public static Orange createOrangeOnRandomPosition() {
 		return new Orange(generateRandomCoordinate(Axis.X), generateRandomCoordinate(Axis.Y));
 	}
 
-	private int generateRandomCoordinate(Axis axis) {
+	/**
+	 * Generates random coordinate from a list of allowed coordinates
+	 * 
+	 * @param axis
+	 * @return random coordinate from a list of allowed coordinates
+	 */
+	private static int generateRandomCoordinate(Axis axis) {
 		List<Integer> allowedPositions = allowedPositions(axis);
 		return allowedPositions.get((int) (Math.random() * allowedPositions.size()));
 	}
 
-	private List<Integer> allowedPositions(Axis axis) {
-		List<Integer> badPositions = badPositions(axis);
-		ArrayList<Integer> allowedPositions = new ArrayList<>(Arrays.asList(coordinates));
+	/**
+	 * Returns list of allowed coordinates
+	 * 
+	 * @param axis
+	 * @return list of allowed coordinates
+	 */
+	private static List<Integer> allowedPositions(Axis axis) {
+		Set<Integer> badPositions = badPositions(axis);
+		ArrayList<Integer> allowedPositions = new ArrayList<>(coordinates);
 		for (Integer d : coordinates) {
 			for (Integer bad : badPositions) {
 				if (d.equals(bad)) {
@@ -47,9 +82,15 @@ public enum FruitFactory {
 		return allowedPositions;
 	}
 
-	private List<Integer> badPositions(Axis axis) {
-		ArrayList<Integer> badPositions = new ArrayList<>(26);
-		int snakeCoord; 
+	/**
+	 * Returns a list of forbidden coordinates
+	 * 
+	 * @param axis
+	 * @return list of forbidden coordinates
+	 */
+	private static Set<Integer> badPositions(Axis axis) {
+		Set<Integer> badPositions = new HashSet<>(26);
+		int snakeCoord;
 		if (axis == Axis.X) {
 			snakeCoord = snake.getXCoordinate();
 			for (Snake.PartOfSnake part : snake.getPartsOfSnake()) {
@@ -62,7 +103,6 @@ public enum FruitFactory {
 			}
 		}
 		badPositions.add(snakeCoord);
-		System.out.println("badXPositions: " + badPositions);
 		return badPositions;
 	}
 

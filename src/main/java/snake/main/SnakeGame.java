@@ -3,11 +3,9 @@ package snake.main;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -30,20 +28,27 @@ import snake.interfaces.IGraphicInterface;
  */
 public class SnakeGame extends Application implements IGraphicInterface {
 
-	public static void main(String[] args) {Application.launch(args);}
+	public static void main(String[] args) { Application.launch(args); }
 
 	// =============== CONSTANTS ===============
+	/**
+	 * The length of each side of a game pane
+	 */
 	public static final int SIZE = 500;
 
 	// =============== Fields ===============
+	/**
+	 * Root pane
+	 */
 	private Pane root;
+	/**
+	 * Scene
+	 */
 	private Scene scene;
-	private Label labelScore;
 
 	private IGameLogic logic = new GameLogic(this);
 
 	// =============== Methods ===============
-
 	@Override
 	public void start(Stage stage) {
 		stage.setTitle("Snake");
@@ -54,12 +59,15 @@ public class SnakeGame extends Application implements IGraphicInterface {
 
 	@Override
 	public void init() {
-		initGreetingPane();
+		initStartPane();
 	}
 
-	private void initGreetingPane() {
+	/**
+	 * Shows pane with button "start"
+	 */
+	private void initStartPane() {
 		root = new Pane();
-		root.setPrefSize(SIZE - 12, SIZE - 12); // fx/os/jdk adds additional 12px(idk)
+		root.setPrefSize(SIZE - 12, SIZE - 12); // fx/os/jdk adds additional 12px
 		root.setBackground(new Background(
 				new BackgroundImage(new Image("/snake-bg.jpg", 700, 500, false, true), BackgroundRepeat.NO_REPEAT,
 						BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
@@ -75,33 +83,28 @@ public class SnakeGame extends Application implements IGraphicInterface {
 		btn.setOnAction(e -> initGamePane());
 	}
 
+	/**
+	 * Shows a game pane and starts the game
+	 */
 	private void initGamePane() {
 		root = new Pane();
 		root.setPrefSize(SIZE, SIZE);
-
-		labelScore = initLabel();
-
+		root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 		Stage stage = (Stage) scene.getWindow();
-		scene = new Scene(new Group(root, labelScore), Color.BLACK);
-
+		
+		scene = new Scene(root, Color.BLACK);
+		scene.setFill(Color.BLACK);
 		stage.setScene(scene);
 
 		initKeyListener(scene);
 		logic.initGame();
 	}
 
-	private Label initLabel() {
-		Label label = new Label();
-		label.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
-		label.setTextFill(Color.WHITE);
-		label.setStyle("-fx-font-size: 20; -fx-font-weight: bold");
-		label.setPrefWidth(130);
-		label.setPrefHeight(20);
-		label.setLayoutX(350);
-		label.setLayoutY(450);
-		return label;
-	}
-
+	/**
+	 * Sets {@code EventHandler} reactions on a certain buttons
+	 * 
+	 * @param scene
+	 */
 	@SuppressWarnings("incomplete-switch")
 	private void initKeyListener(Scene scene) {
 		scene.setOnKeyPressed(event -> {
@@ -133,30 +136,12 @@ public class SnakeGame extends Application implements IGraphicInterface {
 
 	@Override
 	public void addObject(Node node) {
-		addAllObjects(node);
+		Platform.runLater(() -> root.getChildren().add(node));
 	}
 
 	@Override
 	public void removeObject(Node node) {
-		removeAllObjects(node);
-	}
-
-	@Override
-	public void addAllObjects(Node... nodes) {
-		Platform.runLater(() -> {
-			for (int i = 0; i < nodes.length; i++) {
-				root.getChildren().add(nodes[i]);
-			}
-		});
-	}
-
-	@Override
-	public void removeAllObjects(Node... nodes) {
-		Platform.runLater(() -> {
-			for (int i = 0; i < nodes.length; i++) {
-				root.getChildren().remove(nodes[i]);
-			}
-		});
+		Platform.runLater(() -> root.getChildren().remove(node));
 	}
 
 	@Override
