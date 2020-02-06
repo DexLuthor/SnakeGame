@@ -19,7 +19,7 @@ public class ResultsSerializer {
 	/**
 	 * Path to file with saved results
 	 */
-	public static final String PATH = System.getProperty("user.dir") + "/" + "SnakeGameResults" + "." + "json";
+	public static final String PATH = System.getProperty("user.dir") + "/" + "SnakeGameResults" + ".json";
 	/**
 	 * Logger
 	 */

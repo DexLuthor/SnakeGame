@@ -28,7 +28,9 @@ import snake.interfaces.IGraphicInterface;
  */
 public class SnakeGame extends Application implements IGraphicInterface {
 
-	public static void main(String[] args) { Application.launch(args); }
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
 
 	// =============== CONSTANTS ===============
 	/**
@@ -91,7 +93,7 @@ public class SnakeGame extends Application implements IGraphicInterface {
 		root.setPrefSize(SIZE, SIZE);
 		root.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 		Stage stage = (Stage) scene.getWindow();
-		
+
 		scene = new Scene(root, Color.BLACK);
 		scene.setFill(Color.BLACK);
 		stage.setScene(scene);
